@@ -18,17 +18,22 @@ class TemperatureRepository
         $this->temperature = $temperature;
     }
 
+    /**
+     * @param $data
+     * @return void
+     */
     public function create($data = [])
     {
         $temper = new Temperature();
     }
 
     /**
+     * Filter and order by data
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function get()
     {
-        //        return Cache('temperature', function () {
+        // return Cache('temperature', function () {
         $temp = $this->temperature->newQuery();
         $temp->where('user_id', auth()->user()->id);
         if (request('orderby') != '') {

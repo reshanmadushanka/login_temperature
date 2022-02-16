@@ -27,17 +27,20 @@ class LoginSuccessful
      *
      * @param \Illuminate\Auth\Events\Login $event
      * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function handle(Login $event)
     {
         foreach (config('cities') as $city){
-            $tem = $this->temperatureService->get($city);
-            $temperature = new Temperature();
-            $temperature->user_id  = $event->user->id;
-            $temperature->temperature_celsius  = $tem->main->temp;
-            $temperature->temperature_fahrenheit  = (float)(($tem->main->temp * 9 / 5) + 32);
-            $temperature->city  = $city;
-            $temperature->save();
+            if($tem = $this->temperatureService->get($city)){
+                $temperature = new Temperature();
+                $temperature->user_id  = $event->user->id;
+                $temperature->temperature_celsius  = $tem->main->temp;
+                $temperature->temperature_fahrenheit  = (float)(($tem->main->temp * 9 / 5) + 32);
+                $temperature->city  = $city;
+                $temperature->save();
+            };
+
         }
 
 
