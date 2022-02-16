@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\TemperatureCreated;
 use App\Listeners\LoginSuccessful;
+use App\Listeners\TemperatureCacheListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'Illuminate\Auth\Events\Login' => [
             LoginSuccessful::class,
+        ],
+        TemperatureCreated::class => [
+            TemperatureCacheListener::class,
         ],
     ];
 
